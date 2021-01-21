@@ -1,4 +1,4 @@
-mk4rb - ruby bindings to Metakit.
+# mk4rb - ruby bindings to [Metakit](https://www.equi4.com/metakit/).
 
 Bindings are bundled as a ruby gem and consist of c++-extension and
 more higher-level ruby code that adds some useful methods, like
@@ -35,7 +35,10 @@ How you can make sure that it works:
  'rake package'
  - gem install mk4rb-0.1.gem will install the gem (compiling the
  extension along the way)
- - after that you can run any script from 'examples' directory 
+ - after that you can run any script from 'examples' directory
 
--- Ed
+# License
 
+The gem is available as open source under the terms of the [MIT License](http://opensource.org/licenses/MIT).
+
+Portions of this repo include code copied from or ported from the [Metakit source code](https://git.jeelabs.org/jcw/metakit) which is licensed under the terms of the MIT License.
