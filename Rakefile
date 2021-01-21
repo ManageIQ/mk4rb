@@ -51,7 +51,7 @@ spec =
         
         s.require_path = "lib"
         s.autorequire = "mk4rb"
-        s.extensions = FileList["ext/**/extconf.rb"].to_a unless RUBY_PLATFORM =~ /mswin/
+        s.extensions = FileList["ext/**/extconf.rb"].to_a #unless RUBY_PLATFORM =~ /mswin/
         s.bindir = "bin"
     end
 
