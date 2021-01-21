@@ -1,14 +1,15 @@
 require 'rake'
 require 'rake/clean'
-require 'rake/gempackagetask'
-require 'rake/rdoctask'
+require 'rubygems/package_task'
+require 'rdoc/task'
 require 'rake/testtask'
 require 'fileutils'
+require 'rbconfig'
 include FileUtils
 
 NAME = "mk4rb"
 VERS = "0.1"
-CLEAN.include ['ext/metakit_raw/*.{bundle,so,obj,pdb,lib,def,exp}', 'ext/metakit_raw/Makefile', 
+CLEAN.include ['ext/metakit_raw/*.{bundle,so,obj,pdb,lib,def,exp,o}', 'ext/metakit_raw/Makefile',
                '**/.*.sw?', '*.gem', '.config']
 
 desc "Does a full compile, test run"
@@ -40,7 +41,6 @@ spec =
         s.name = NAME
         s.version = VERS
         s.platform = Gem::Platform::RUBY
-        s.has_rdoc = false
         s.summary = "ruby bindings for Metakit"
         s.description = s.summary
         s.author = "Ed Sinjiashvili"
@@ -55,14 +55,14 @@ spec =
         s.bindir = "bin"
     end
 
-Rake::GemPackageTask.new(spec) do |p|
-    p.need_tar = false
-    p.gem_spec = spec
+Gem::PackageTask.new(spec) do |p|
+  p.need_tar = false
+  p.gem_spec = spec
 end
 
 extension = "metakit_raw"
 ext = "ext/metakit_raw"
-ext_so = "#{ext}/#{extension}.#{Config::CONFIG['DLEXT']}"
+ext_so = "#{ext}/#{extension}.#{RbConfig::CONFIG['DLEXT']}"
 ext_files = FileList[
   "#{ext}/*.cpp",
   "#{ext}/*.h",
@@ -84,7 +84,7 @@ end
 
 file ext_so => ext_files do
   Dir.chdir(ext) do
-    sh(PLATFORM =~ /win32/ ? 'nmake' : 'make')
+    sh(RUBY_PLATFORM =~ /win32/ ? 'nmake' : 'make')
   end
   cp ext_so, "lib"
 end
